@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8">
+<title>Sazzad &amp; Tanjila</title>
+<meta name="description" content="Wedding invitation for Sazzad Alam and Tanjila Nur: 4 and 5 December 2026, Chittagong.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Serif+Bengali:wght@600&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Pinyon+Script&display=swap">
+<link rel="preload" as="image" href="img/f/win-000.webp">
+<style>
+  /* Single-look design: a candle-lit evening, painted explicitly so it holds on any host theme. */
+  :root {
+    color-scheme: dark;
+    --ink: #0b0a12;
+    --gold: #e3bd72;
+    --gold-soft: #f4e2b4;
+    --paper: #fbf5e8;
+    --paper-ink: #3b2a1d;
+    --paper-muted: #7a6450;
+    --rose: #a3243a;
+    --leaf: #2d5a46;
+    --display: "Cinzel", "Trajan Pro", Georgia, serif;
+    --script: "Pinyon Script", "Snell Roundhand", "Apple Chancery", cursive;
+    --body: "EB Garamond", Garamond, "Times New Roman", serif;
+    --ease: cubic-bezier(.22, .7, .2, 1);
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--ink); color: var(--gold-soft); font-family: var(--body); font-size: 18px; line-height: 1.55; overflow-x: hidden; }
+  h1, h2, h3, p { margin: 0; }
+  h1, h2, h3 { font-weight: 600; text-wrap: balance; }
+  img { max-width: 100%; display: block; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .script { font-family: var(--script); font-weight: 400; line-height: 1.1; }
+  .eyebrow { font-family: var(--display); font-size: 12px; letter-spacing: .28em; text-transform: uppercase; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 11px 22px; border: 1px solid var(--gold); border-radius: 999px;
+    background: rgba(6, 10, 25, .7); color: var(--gold-soft);
+    font-family: var(--display); font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer; transition: background .25s, color .25s;
+  }
+  .btn:hover { background: var(--gold); color: var(--ink); }
+  .btn.solid { background: var(--leaf); border-color: var(--leaf); color: var(--paper); }
+  .btn.solid:hover { background: #24493a; }
+  .paper { position: relative; background: var(--paper); color: var(--paper-ink); border-radius: 4px; box-shadow: 0 24px 60px rgba(0, 0, 0, .45); }
+  .paper::before { content: ""; position: absolute; inset: 8px; border: 1px solid rgba(163, 120, 52, .55); outline: 1px solid rgba(163, 120, 52, .25); outline-offset: 3px; border-radius: 2px; pointer-events: none; }
+
+  /* ================= HERO: one scroll-driven sequence ================= */
+  #hero { position: relative; height: 540vh; }
+  .hero-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: radial-gradient(120% 90% at 50% 45%, #2a1810, #0d0805 70%); }
+  .box { position: absolute; left: 0; top: 0; will-change: transform; container-type: inline-size; transform-origin: 50% 50%; }
+  .box canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  #boxEnv, #boxBoat { opacity: 0; }
+
+  /* the words printed on the bride's card: placed in the frame's own coordinates */
+  .print { position: absolute; transform: translateX(-50%); text-align: center; color: #45301f; mix-blend-mode: multiply; white-space: nowrap; opacity: var(--printed, 0); }
+  .print.bn { left: 49.2%; top: 19.2%; font-family: "Noto Serif Bengali", var(--body); font-weight: 600; font-size: 1.5cqw; color: #2f5a42; line-height: 1.3; }
+  .print.title { left: 49.2%; top: 23.4%; font-family: var(--script); font-size: 2.15cqw; line-height: 1.2; }
+  .print.names { left: 49.2%; top: 54.6%; font-family: var(--display); font-weight: 600; font-size: 1.05cqw; letter-spacing: .14em; }
+  .print.date { left: 49.2%; top: 57.6%; font-family: var(--body); font-style: italic; font-size: .95cqw; color: #6a5039; }
+  .card-photo { position: absolute; left: 38.2%; top: 31.6%; width: 22%; height: 22%; opacity: var(--printed, 0); box-shadow: 0 0 0 1px rgba(110, 80, 40, .35); }
+  .card-photo img { width: 100%; height: 100%; object-fit: cover; max-width: none; }
+
+  .hero-names { position: absolute; z-index: 3; left: 0; right: 0; top: clamp(56px, 9vh, 110px); padding-inline: 16px; text-align: center; display: grid; justify-items: center; gap: min(14px, 1.8vh); pointer-events: none; }
+  .hero-names::before { content: ""; position: absolute; z-index: -1; left: 50%; top: -60px; width: min(980px, 130%); height: calc(100% + 120px); transform: translateX(-50%); background: radial-gradient(closest-side, rgba(6, 8, 20, .68), rgba(6, 8, 20, .34) 62%, transparent); }
+  .hero-names > * { opacity: var(--o, 0); transform: translateY(calc((1 - var(--o, 0)) * 14px)); }
+  .bismillah { font-family: "Amiri", "Traditional Arabic", serif; font-size: clamp(22px, 2.6vw, 30px); color: var(--gold); line-height: 1.5; }
+  .blessing { font-style: italic; font-size: clamp(15px, 1.4vw, 18px); text-shadow: 0 1px 10px rgba(0, 0, 0, .8); }
+  .couple { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; width: min(720px, 100%); }
+  .couple .name { font-family: var(--display); font-weight: 600; font-size: clamp(28px, min(4.4vw, 7vh), 56px); color: var(--gold); letter-spacing: .04em; line-height: 1.05; text-shadow: 0 2px 22px rgba(227, 189, 114, .4), 0 2px 10px rgba(0, 0, 0, .7); }
+  .couple .amp { font-family: var(--script); font-size: clamp(38px, 5vw, 64px); color: var(--gold); line-height: 1; }
+  .save-date { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; padding: 8px 18px; border-block: 1px solid rgba(227, 189, 114, .5); font-family: var(--display); font-size: 14px; letter-spacing: .2em; text-transform: uppercase; text-shadow: 0 1px 10px rgba(0, 0, 0, .8); }
+
+  .cue { position: absolute; z-index: 3; left: 50%; bottom: 24px; translate: -50% 0; display: grid; justify-items: center; gap: 8px; font: 12px var(--display); letter-spacing: .26em; text-transform: uppercase; color: var(--gold-soft); text-shadow: 0 1px 8px rgba(0, 0, 0, .9); opacity: var(--cue, 1); pointer-events: none; }
+  .cue::after { content: ""; width: 1px; height: 34px; background: linear-gradient(var(--gold-soft), transparent); animation: cue 1.8s ease-in-out infinite; transform-origin: top; }
+  @keyframes cue { 0%, 100% { transform: scaleY(.4); } 50% { transform: scaleY(1); } }
+
+  .loading { position: absolute; z-index: 4; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); font: 11px var(--display); letter-spacing: .2em; text-transform: uppercase; color: rgba(244, 226, 180, .7); transition: opacity .6s; }
+  .loading.done { opacity: 0; }
+
+  /* boat ride with the dates (last part of the hero) */
+  .ride-ui { position: absolute; inset: 0; z-index: 3; opacity: var(--ride, 0); pointer-events: none; }
+  .ride-ui::before { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(6, 14, 10, .45), transparent 28%, transparent 72%, rgba(6, 14, 10, .3)); }
+  .ride-head { position: absolute; top: calc(22px + env(safe-area-inset-top, 0px)); left: 0; right: 0; padding-inline: 16px; text-align: center; }
+  .ride-head .script { font-size: clamp(30px, 3.8vw, 44px); color: var(--gold-soft); text-shadow: 0 2px 14px rgba(0, 0, 0, .8); }
+  .ride-rail { position: absolute; left: max(16px, 5vw); top: 50%; transform: translateY(-50%); list-style: none; margin: 0; padding: 14px 18px; display: grid; gap: 16px; background: rgba(10, 18, 14, .45); backdrop-filter: blur(6px); border-radius: 3px; }
+  .ride-rail li { display: flex; align-items: center; gap: 10px; font: 12px var(--display); letter-spacing: .18em; text-transform: uppercase; color: rgba(244, 226, 180, .6); transition: color .4s; }
+  .ride-rail li::before { content: ""; width: 10px; height: 10px; border-radius: 50%; border: 1px solid currentColor; transition: background .4s, transform .4s; }
+  .ride-rail li.on { color: var(--gold-soft); }
+  .ride-rail li.on::before { background: var(--gold); border-color: var(--gold); transform: scale(1.3); }
+  .ride-cards { position: absolute; right: max(16px, 6vw); top: 50%; transform: translateY(-50%); width: min(400px, calc(100% - 32px)); height: 290px; }
+  .ride-card { position: absolute; inset: 0; padding: 28px 30px; display: flex; flex-direction: column; opacity: 0; transform: translateY(24px) rotate(-1deg); transition: opacity .55s ease, transform .55s ease; }
+  .ride-card.on { opacity: 1; transform: none; }
+  .ride-card .when { font: 12px var(--display); letter-spacing: .22em; text-transform: uppercase; color: #9a6a2a; }
+  .ride-card h3 { font-family: var(--display); font-size: 34px; letter-spacing: .06em; color: var(--rose); margin-top: 6px; }
+  .ride-card .sub { font-family: var(--script); font-size: 26px; color: #7a4a2a; }
+  .ride-card dl { margin: auto 0 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: 16px; }
+  .ride-card dt { font: 11px var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--paper-muted); padding-top: 4px; }
+  .ride-card dd { margin: 0; }
+
+  /* ================= Two hearts ================= */
+  .scene { position: relative; display: grid; place-items: center; padding-block: 72px; padding-inline: 16px; overflow: hidden; isolation: isolate; }
+  .scene > .bg { position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+  #stage { min-height: min(100svh, 940px); align-items: start; }
+  #stage > .bg { object-position: 50% 70%; }
+  .fairy { position: absolute; top: 6%; left: 0; right: 0; height: 40px; z-index: -1; pointer-events: none; }
+  .fairy i { position: absolute; top: 0; width: 5px; height: 5px; border-radius: 50%; background: #fff1c4; box-shadow: 0 0 8px 3px rgba(255, 220, 140, .8); animation: twinkle 1.6s ease-in-out infinite alternate; }
+  @keyframes twinkle { from { opacity: 1; } to { opacity: .4; } }
+  .petals { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+  .petals i { position: absolute; top: -30px; width: 12px; height: 9px; border-radius: 60% 0 60% 0; background: linear-gradient(135deg, #f07b93, #b8243f); animation: fall linear infinite; }
+  @keyframes fall { 0% { transform: translate(0, 0) rotate(0); } 50% { transform: translate(40px, 50vh) rotate(200deg); } 100% { transform: translate(-20px, 105vh) rotate(420deg); } }
+  .stage-copy { position: relative; z-index: 2; display: grid; justify-items: center; gap: 12px; text-align: center; max-width: 600px; margin-top: clamp(8px, 3vh, 40px); padding: 22px clamp(18px, 3vw, 34px) 24px; background: rgba(6, 10, 25, .58); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); border: 1px solid rgba(227, 189, 114, .35); border-radius: 4px; box-shadow: 0 20px 50px rgba(0, 0, 0, .45); }
+  .stage-copy .script { font-size: clamp(38px, 5.5vw, 56px); color: var(--gold); }
+  .verse { display: grid; gap: 6px; max-width: 46ch; }
+  .verse .ar { font-family: "Amiri", "Traditional Arabic", serif; font-size: clamp(20px, 2.4vw, 26px); color: var(--gold); line-height: 1.8; }
+  .verse .en { font-style: italic; }
+  .verse .ref { font-family: var(--display); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+
+  /* ================= Venues + countdown ================= */
+  #venues > .bg { filter: brightness(.55); }
+  .venues-wrap { width: min(980px, 100%); display: grid; gap: 26px; justify-items: center; }
+  .section-head { text-align: center; display: grid; gap: 6px; }
+  .section-head .script { font-size: clamp(40px, 6vw, 56px); color: var(--gold); text-shadow: 0 2px 20px rgba(0, 0, 0, .6); }
+  .venues { list-style: none; margin: 0; padding: 0; width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 22px; }
+  .venue { display: grid; gap: 4px; text-align: center; padding: 18px 18px 22px; }
+  .venue h3 { font-family: var(--display); font-size: 21px; letter-spacing: .14em; color: var(--rose); }
+  .venue .when { font-weight: 500; }
+  .venue .where { color: var(--paper-ink); }
+  .venue .address { color: var(--paper-muted); font-size: 16px; }
+  .ev-map { position: relative; aspect-ratio: 16 / 8; max-width: 100%; margin: 0 0 12px; border-radius: 3px; overflow: hidden; background: #4a0e18 url("img/map.jpg") var(--pos, 30% 40%) / 230% auto no-repeat; }
+  .ev-map::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(42, 6, 16, .65)); pointer-events: none; }
+  .pin { position: absolute; left: 50%; top: 50%; z-index: 2; width: 40px; height: 40px; margin: -40px 0 0 -20px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: radial-gradient(circle at 60% 40%, #f7d58a, var(--gold) 55%, #9c7128); box-shadow: 0 8px 18px rgba(0, 0, 0, .5); display: grid; place-items: center; }
+  .pin span { transform: rotate(45deg); font-family: var(--script); font-size: 19px; color: var(--rose); line-height: 1; }
+  .pin-pulse { position: absolute; left: 50%; top: 50%; z-index: 1; width: 22px; height: 10px; margin: -4px 0 0 -11px; border-radius: 50%; background: rgba(247, 213, 138, .6); animation: pinpulse 2.4s ease-out infinite; }
+  @keyframes pinpulse { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(5); opacity: 0; } }
+  .map-date { position: absolute; z-index: 2; left: 12px; top: 12px; background: rgba(251, 245, 232, .95); color: var(--rose); padding: 5px 11px 4px; border-radius: 2px; font: 600 11px var(--display); letter-spacing: .18em; text-transform: uppercase; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px 16px; justify-content: center; align-items: center; margin-top: 10px; }
+  .actions .btn { padding: 9px 18px; font-size: 12px; }
+  .cal { color: var(--leaf); font: 12px var(--display); letter-spacing: .16em; text-transform: uppercase; text-underline-offset: 4px; }
+  .cd-card { width: min(460px, 100%); padding: 24px; display: grid; gap: 14px; text-align: center; }
+  .cd-card .date-line { color: var(--paper-muted); font-size: 15px; }
+  .countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .countdown div { display: grid; gap: 2px; padding: 8px 4px; background: #f1e7d3; border-radius: 4px; }
+  .countdown b { font: 600 24px var(--display); color: var(--paper-ink); font-variant-numeric: tabular-nums; }
+  .countdown small { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--paper-muted); }
+  .countdown-done { font-family: var(--script); font-size: 34px; color: var(--rose); }
+  .hashtag { font-family: var(--script); font-size: 30px; color: var(--rose); }
+
+  footer { padding-block: 40px 48px; padding-inline: 16px; text-align: center; display: grid; gap: 8px; justify-items: center; }
+  footer .script { font-size: 40px; color: var(--gold); }
+  footer p { font-size: 15px; opacity: .8; }
+
+  @media (max-width: 760px) {
+    .couple { grid-template-columns: 1fr; gap: 2px; }
+    .ride-rail { display: none; }
+    .ride-cards { top: auto; bottom: 18px; transform: none; left: 16px; right: 16px; width: auto; height: 250px; }
+    .ride-card { padding: 22px 24px; }
+    .ride-card h3 { font-size: 28px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .cue::after, .fairy i, .petals i, .pin-pulse { animation: none; }
+    .ride-card { transition: none; }
+  }
+</style>
+
+<!-- ================= HERO ================= -->
+<section id="hero" aria-label="Wedding invitation">
+  <div class="hero-stage" id="heroStage">
+    <div class="box" id="boxWin"><canvas id="cvWin" aria-hidden="true"></canvas></div>
+    <div class="box" id="boxEnv">
+      <canvas id="cvEnv" aria-hidden="true"></canvas>
+      <p class="print bn" lang="bn">বিয়ের দাওয়াত</p>
+      <p class="print title">Join us for our wedding celebration</p>
+      <div class="card-photo" id="cardPhoto"><img src="img/card-photo.webp" alt=""></div>
+      <p class="print names">Sazzad &amp; Tanjila</p>
+      <p class="print date">4 &amp; 5 December 2026 · Chittagong</p>
+    </div>
+    <div class="box" id="boxBoat"><canvas id="cvBoat" aria-hidden="true"></canvas></div>
+
+    <div class="hero-names" id="heroNames">
+      <p class="bismillah" lang="ar" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+      <p class="blessing">By the grace of Allah, and with the blessings of our families</p>
+      <div class="couple">
+        <h1 class="name">Sazzad Alam</h1>
+        <span class="amp" aria-hidden="true">&amp;</span>
+        <p class="name">Tanjila Nur</p>
+      </div>
+      <p class="save-date"><span>4 December 2026</span><span aria-hidden="true">·</span><span>Hall 24 Convention Center</span></p>
+      <p class="blessing">request the pleasure of your company</p>
+    </div>
+
+    <div class="ride-ui" id="rideUi">
+      <div class="ride-head"><p class="script">Two days, one journey</p></div>
+      <ol class="ride-rail" id="rideRail"></ol>
+      <div class="ride-cards" id="rideCards"></div>
+    </div>
+
+    <p class="cue" id="cue">Scroll to open</p>
+    <p class="loading" id="loading">Loading 0%</p>
+  </div>
+</section>
+
+<!-- ================= TWO HEARTS ================= -->
+<section class="scene" id="stage" aria-label="The ceremony">
+  <img class="bg" src="img/biye-stage.jpg" alt="The flower-covered wedding stage at night, the couple hand in hand before it" loading="lazy">
+  <div class="fairy" id="fairy"></div>
+  <div class="petals" id="petals"></div>
+  <div class="stage-copy">
+    <h2 class="script">Two hearts, one promise</h2>
+    <div class="verse">
+      <p class="ar" lang="ar" dir="rtl">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً</p>
+      <p class="en">&ldquo;And among His signs is that He created for you spouses from among yourselves, that you may find tranquility in them, and He placed between you affection and mercy.&rdquo;</p>
+      <p class="ref">Surah Ar-Rum &middot; 30:21</p>
+    </div>
+    <a class="btn" href="#venues">See the venues</a>
+  </div>
+</section>
+
+<!-- ================= VENUES ================= -->
+<section class="scene" id="venues" aria-label="Venues">
+  <img class="bg" src="img/hall.jpg" alt="" loading="lazy">
+  <div class="venues-wrap">
+    <header class="section-head">
+      <p class="eyebrow">Finding your way</p>
+      <h2 class="script">The venues</h2>
+    </header>
+    <ul class="venues" id="venueList"></ul>
+    <div class="paper cd-card">
+      <p>We can't wait to celebrate with you</p>
+      <p class="date-line">Friday, 4 December 2026 · Hall 24 Convention Center</p>
+      <div id="countdown" class="countdown" aria-live="off">
+        <div><b data-cd="d">--</b><small>Days</small></div>
+        <div><b data-cd="h">--</b><small>Hours</small></div>
+        <div><b data-cd="m">--</b><small>Minutes</small></div>
+        <div><b data-cd="s">--</b><small>Seconds</small></div>
+      </div>
+      <p id="countdownDone" class="countdown-done" hidden>Today is the day</p>
+      <p class="hashtag">#SazzadWedsTanjila</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="script">Sazzad &amp; Tanjila</p>
+  <p>4 &amp; 5 December 2026 · Chittagong</p>
+  <a class="btn" href="#hero">Back to the beginning</a>
+</footer>
+
+<script>
+(() => {
+  /* ---------------- details ---------------- */
+  const EVENTS = [
+    { name: "Wedding", sub: "The Biye", date: "2026-12-04", venue: "Hall 24 Convention Center",
+      address: "Beside MA Aziz Stadium, C.R.B. Road, Chattogram 4200", map: "Hall 24 Convention Center, C.R.B. Road, Chattogram", pin: "S", pos: "28% 34%" },
+    { name: "Reception", sub: "Dinner & celebration", date: "2026-12-05", venue: "City Hall Convention Center",
+      address: "Agrabad Access Road, Chattogram 4100", map: "City Hall Convention Center, Agrabad Access Road, Chattogram", pin: "T", pos: "74% 62%" }
+  ];
+  const WEDDING_AT = new Date(2026, 11, 4, 0, 0);
+
+  /* ---------------- frame sequences (HD stills, drawn by scroll) ---------------- */
+  const pad = n => String(n).padStart(3, "0");
+  const CLIPS = {
+    win:  { n: 72, src: i => `img/f/win-${pad(i)}.webp` },
+    env:  { n: 64, src: i => `img/f/env-${pad(i)}.webp` },
+    boat: { n: 72, src: i => `img/f/boat-${pad(i)}.webp` }
+  };
+  const BRIDE_WINDOW = [0.88, 0.45];        // where the bride's window sits in the window clip
+  const PHOTO = { x: .492, y: .426, w: .22 }; // the picture printed on the card, in frame coordinates
+  const CARD_W = .403;                      // card width as a share of the frame
+
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const small = Math.min(innerWidth, innerHeight) < 600;
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const range = (p, a, b) => clamp((p - a) / (b - a));
+  const smooth = t => t * t * (3 - 2 * t);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  for (const c of Object.values(CLIPS)) { c.imgs = new Array(c.n); c.ok = new Array(c.n).fill(false); }
+  let loaded = 0, wanted = 0;
+  const loadingEl = document.getElementById("loading");
+  function queue(clip, step, offset) {
+    const list = [];
+    for (let i = offset; i < clip.n; i += step) list.push(i);
+    if (offset === 0 && (clip.n - 1) % step) list.push(clip.n - 1);
+    return list.map(i => () => new Promise(res => {
+      if (clip.imgs[i]) return res();
+      const im = new Image();
+      im.decoding = "async";
+      im.onload = () => { clip.ok[i] = true; loaded++; render(true); res(); };
+      im.onerror = () => res();
+      im.src = clip.src(i);
+      clip.imgs[i] = im;
+    }));
+  }
+  // first pass: every other frame of each clip, in story order; second pass fills the gaps (desktop)
+  const jobs = [...queue(CLIPS.win, 2, 0), ...queue(CLIPS.env, 2, 0), ...queue(CLIPS.boat, 2, 0)];
+  if (!small) jobs.push(...queue(CLIPS.win, 2, 1), ...queue(CLIPS.env, 2, 1), ...queue(CLIPS.boat, 2, 1));
+  wanted = jobs.length;
+  (async () => {
+    const workers = Array.from({ length: 6 }, async () => { while (jobs.length) await jobs.shift()(); });
+    await Promise.all(workers);
+    loadingEl.classList.add("done");
+  })();
+  setInterval(() => { if (!loadingEl.classList.contains("done")) loadingEl.textContent = `Loading ${Math.round(loaded / wanted * 100)}%`; }, 300);
+
+  function nearest(clip, i) {
+    for (let d = 0; d < clip.n; d++) {
+      if (i - d >= 0 && clip.ok[i - d]) return clip.imgs[i - d];
+      if (i + d < clip.n && clip.ok[i + d]) return clip.imgs[i + d];
+    }
+    return null;
+  }
+
+  /* ---------------- canvases ---------------- */
+  const stage = document.getElementById("heroStage");
+  const boxes = {
+    win: { el: document.getElementById("boxWin"), cv: document.getElementById("cvWin"), last: "" },
+    env: { el: document.getElementById("boxEnv"), cv: document.getElementById("cvEnv"), last: "" },
+    boat: { el: document.getElementById("boxBoat"), cv: document.getElementById("cvBoat"), last: "" }
+  };
+  for (const b of Object.values(boxes)) { b.ctx = b.cv.getContext("2d"); }
+
+  // size a 16:9 frame box: cover the screen, keep `fx` in view; `fitCard` keeps the whole card on narrow screens
+  function layout(b, fx, fitCard) {
+    const W = stage.clientWidth, H = stage.clientHeight;
+    let w = Math.max(W, H * 16 / 9);
+    if (fitCard) w = Math.max(W, Math.min(w, (W * .94) / CARD_W));
+    const h = w * 9 / 16;
+    const left = clamp(W / 2 - fx * w, W - w, 0);
+    const top = (H - h) / 2;
+    if (b.w !== w || b.h !== h) {
+      b.el.style.width = w + "px"; b.el.style.height = h + "px";
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const cw = Math.round(Math.min(w * dpr, 2400)), ch = Math.round(cw * 9 / 16);
+      b.cv.width = cw; b.cv.height = ch; b.last = "";
+      b.ctx.imageSmoothingQuality = "high";
+      b.w = w; b.h = h;
+    }
+    b.el.style.left = left + "px"; b.el.style.top = top + "px";
+    return { W, H, w, h, left, top };
+  }
+  function draw(b, clip, t) {
+    const f = clamp(t) * (clip.n - 1), i = Math.floor(f), frac = f - i;
+    const key = `${i}:${frac.toFixed(2)}:${clip.ok[i]}:${clip.ok[Math.min(i + 1, clip.n - 1)]}`;
+    if (key === b.last) return;
+    const a = clip.ok[i] ? clip.imgs[i] : nearest(clip, i);
+    if (!a) return;
+    b.last = key;
+    const { width: cw, height: ch } = b.cv;
+    b.ctx.globalAlpha = 1;
+    b.ctx.drawImage(a, 0, 0, cw, ch);
+    const nxt = i + 1 < clip.n && clip.ok[i + 1] ? clip.imgs[i + 1] : null;
+    if (nxt && frac > .02 && clip.ok[i]) { b.ctx.globalAlpha = frac; b.ctx.drawImage(nxt, 0, 0, cw, ch); b.ctx.globalAlpha = 1; }
+  }
+
+  /* ---------------- the story, by scroll ---------------- */
+  const hero = document.getElementById("hero");
+  const names = document.getElementById("heroNames");
+  const cue = document.getElementById("cue");
+  const rideUi = document.getElementById("rideUi");
+  const rideCards = document.getElementById("rideCards"), rideRail = document.getElementById("rideRail");
+  EVENTS.forEach((ev, i) => {
+    const dt = new Date(ev.date + "T00:00");
+    const long = dt.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    const card = document.createElement("article");
+    card.className = "paper ride-card" + (i === 0 ? " on" : "");
+    card.innerHTML = `<p class="when">${esc(dt.toLocaleDateString("en-GB", { weekday: "long" }))} · ${esc(dt.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }))}</p>` +
+      `<h3>${esc(ev.name)}</h3><p class="sub">${esc(ev.sub)}</p>` +
+      `<dl><dt>Where</dt><dd>${esc(ev.venue)}</dd><dt>When</dt><dd>${esc(long)}</dd></dl>`;
+    rideCards.appendChild(card);
+    const li = document.createElement("li"); li.textContent = ev.name; if (i === 0) li.className = "on"; rideRail.appendChild(li);
+  });
+  const cards = [...rideCards.children], rails = [...rideRail.children];
+  let lastCard = 0;
+
+  let pNow = 0, pTarget = 0, running = false;
+  function heroProgress() {
+    const r = hero.getBoundingClientRect();
+    return clamp(-r.top / (r.height - innerHeight));
+  }
+  function render(force) {
+    if (force === true && running) return;
+    const p = pNow;
+
+    // A  0 – .24  dusk to night, shutters open; names arrive with the couple
+    const tWin = range(p, 0, .24);
+    // B  .26 – .38  the camera pushes into the bride's window
+    const push = smooth(range(p, .27, .38));
+    const fx = .5 + (BRIDE_WINDOW[0] - .5) * smooth(range(p, .24, .32));
+    const L = layout(boxes.win, fx, false);
+    boxes.win.el.style.transformOrigin = `${BRIDE_WINDOW[0] * 100}% ${BRIDE_WINDOW[1] * 100}%`;
+    boxes.win.el.style.transform = `scale(${1 + push * 5})`;
+    boxes.win.el.style.opacity = 1 - range(p, .40, .42);
+    draw(boxes.win, CLIPS.win, tWin);
+
+    const nameIn = range(p, .15, .21), nameOut = range(p, .26, .29);
+    names.style.setProperty("--o", (nameIn * (1 - nameOut)).toFixed(3));
+    names.style.visibility = nameIn * (1 - nameOut) > 0 ? "visible" : "hidden";
+    cue.style.setProperty("--cue", (1 - range(p, 0, .04)).toFixed(3));
+
+    // C  .34 – .60  into her room: the seal breaks, the card comes out
+    const envIn = smooth(range(p, .33, .39));
+    const tEnv = range(p, .38, .60);
+    // D  .58 – .66  the words appear printed on her card
+    const printed = smooth(range(p, .58, .65));
+    // E  .67 – .78  the camera moves into the picture on the card
+    const dive = smooth(range(p, .67, .78));
+    const E = layout(boxes.env, .5, true);
+    const zEnd = Math.max(E.W / (PHOTO.w * E.w), E.H / (PHOTO.w * E.h)) * 1.03;
+    boxes.env.el.style.transformOrigin = `${PHOTO.x * 100}% ${PHOTO.y * 100}%`;
+    boxes.env.el.style.transform = `scale(${1 + dive * (zEnd - 1)})`;
+    boxes.env.el.style.opacity = envIn;
+    boxes.env.el.style.setProperty("--printed", printed.toFixed(3));
+    if (envIn > 0) draw(boxes.env, CLIPS.env, tEnv);
+
+    // F  .76 – 1  the boat ride, with the two dates
+    const boatIn = range(p, .755, .78);
+    layout(boxes.boat, .44, false);
+    boxes.boat.el.style.opacity = boatIn;
+    const tBoat = range(p, .78, 1);
+    if (boatIn > 0) draw(boxes.boat, CLIPS.boat, tBoat);
+    rideUi.style.setProperty("--ride", smooth(range(p, .78, .82)).toFixed(3));
+    const idx = tBoat < .5 ? 0 : 1;
+    if (idx !== lastCard) { cards.forEach((c, i) => c.classList.toggle("on", i === idx)); rails.forEach((c, i) => c.classList.toggle("on", i === idx)); lastCard = idx; }
+  }
+  // ease toward the scroll position so every step glides, forwards and backwards
+  function tick() {
+    pNow += (pTarget - pNow) * (reduced ? 1 : .14);
+    if (Math.abs(pTarget - pNow) < .0004) pNow = pTarget;
+    render();
+    if (pNow !== pTarget) requestAnimationFrame(tick); else running = false;
+  }
+  function onScroll() {
+    pTarget = heroProgress();
+    if (!running) { running = true; requestAnimationFrame(tick); }
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", () => { for (const b of Object.values(boxes)) b.w = 0; pTarget = pNow = heroProgress(); render(); });
+  pTarget = pNow = heroProgress();
+  render();
+
+  /* ---------------- two hearts: petals and lights ---------------- */
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const petals = document.getElementById("petals");
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement("i");
+    p.style.left = rand(0, 100) + "%"; p.style.animationDuration = rand(7, 13) + "s"; p.style.animationDelay = -rand(0, 13) + "s"; p.style.scale = rand(.6, 1.3);
+    petals.appendChild(p);
+  }
+  const fairy = document.getElementById("fairy");
+  for (let i = 0; i < 28; i++) {
+    const f = document.createElement("i"); const x = (i + .5) / 28;
+    f.style.left = x * 100 + "%"; f.style.top = Math.sin(x * Math.PI * 3) * 12 + 14 + "px"; f.style.animationDelay = -rand(0, 1.6) + "s";
+    fairy.appendChild(f);
+  }
+
+  /* ---------------- venues ---------------- */
+  const calLink = ev => {
+    const d = ev.date.replace(/-/g, ""), next = new Date(ev.date + "T00:00"); next.setDate(next.getDate() + 1);
+    const n = `${next.getFullYear()}${String(next.getMonth() + 1).padStart(2, "0")}${String(next.getDate()).padStart(2, "0")}`;
+    return "https://calendar.google.com/calendar/render?" + new URLSearchParams({ action: "TEMPLATE", text: `${ev.name}: Sazzad & Tanjila`, dates: `${d}/${n}`, location: `${ev.venue}, ${ev.address}` });
+  };
+  const list = document.getElementById("venueList");
+  EVENTS.forEach(ev => {
+    const dt = new Date(ev.date + "T00:00");
+    const chip = dt.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+    const li = document.createElement("li");
+    li.className = "paper venue";
+    li.innerHTML =
+      `<div class="ev-map" style="--pos:${ev.pos}" role="img" aria-label="Decorative map marking ${esc(ev.venue)}"><span class="map-date">${esc(chip)}</span>` +
+      `<span class="pin-pulse" aria-hidden="true"></span><span class="pin" aria-hidden="true"><span>${esc(ev.pin)}</span></span></div>` +
+      `<h3>${esc(ev.name)}</h3>` +
+      `<p class="when">${esc(dt.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" }))}</p>` +
+      `<p class="where">${esc(ev.venue)}</p><p class="address">${esc(ev.address)}</p>` +
+      `<div class="actions"><a class="btn solid" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ev.map)}" target="_blank" rel="noopener">Get directions</a>` +
+      `<a class="cal" href="${calLink(ev)}" target="_blank" rel="noopener">Add to calendar</a></div>`;
+    list.appendChild(li);
+  });
+
+  /* ---------------- countdown ---------------- */
+  const cd = Object.fromEntries([...document.querySelectorAll("[data-cd]")].map(el => [el.dataset.cd, el]));
+  function tickCd() {
+    const diff = WEDDING_AT - new Date();
+    if (diff <= 0) { document.getElementById("countdown").hidden = true; document.getElementById("countdownDone").hidden = false; return; }
+    const s = Math.floor(diff / 1000);
+    cd.d.textContent = Math.floor(s / 86400);
+    cd.h.textContent = String(Math.floor(s / 3600) % 24).padStart(2, "0");
+    cd.m.textContent = String(Math.floor(s / 60) % 60).padStart(2, "0");
+    cd.s.textContent = String(s % 60).padStart(2, "0");
+  }
+  tickCd(); setInterval(tickCd, 1000);
+})();
+</script>
