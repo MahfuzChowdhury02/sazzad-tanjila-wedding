@@ -14,7 +14,16 @@ A scroll-driven wedding invitation for **Sazzad Alam & Tanjila Nur**.
 3. She breaks the wax seal and lifts the card; the invitation is printed on it.
 4. The camera moves into the boat picture on the card and the boat ride begins, with the wedding and reception dates.
 
-Each step is drawn on a `<canvas>` from HD WebP frames in `img/f/` (`win-*`, `env-*`, `boat-*`), with neighbouring frames blended for smooth motion. Phones load every other frame to keep the download smaller.
+Each step is drawn on a `<canvas>` from AVIF frame files, two frames stacked per file, with neighbouring frames blended for smooth motion:
+
+- `img/w/` — wide 2560×1440 frames for computers and landscape tablets (window and envelope from 4K upscales).
+- `img/t/` — portrait 1080×1920 frames for phones, from scenes recomposed for a tall screen.
+
+The page picks one set by screen shape, downloads it compressed, and decodes only the frames around the current scroll position.
+
+## Music
+
+A play/pause button sits in the bottom-right corner. By default the song (*Pyaar Mein*, Murtaza Qizilbash) plays through YouTube's embedded player, which appears small above the button while it plays. To use an audio file you have the rights to instead, set `MUSIC.file` (e.g. `"music/song.mp3"`) in the script.
 
 ## Editing
 

@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Serif+Bengali:wght@600&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Pinyon+Script&display=swap">
-<link rel="preload" as="image" href="img/f/win-000.webp">
 <style>
   /* Single-look design: a candle-lit evening, painted explicitly so it holds on any host theme. */
   :root {
@@ -55,14 +54,15 @@
   .box canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   #boxEnv, #boxBoat { opacity: 0; }
 
-  /* the words printed on the bride's card: placed in the frame's own coordinates */
-  .print { position: absolute; transform: translateX(-50%); text-align: center; color: #45301f; mix-blend-mode: multiply; white-space: nowrap; opacity: var(--printed, 0); }
-  .print.bn { left: 49.2%; top: 19.2%; font-family: "Noto Serif Bengali", var(--body); font-weight: 600; font-size: 1.5cqw; color: #2f5a42; line-height: 1.3; }
-  .print.title { left: 49.2%; top: 23.4%; font-family: var(--script); font-size: 2.15cqw; line-height: 1.2; }
-  .print.names { left: 49.2%; top: 54.6%; font-family: var(--display); font-weight: 600; font-size: 1.05cqw; letter-spacing: .14em; }
-  .print.date { left: 49.2%; top: 57.6%; font-family: var(--body); font-style: italic; font-size: .95cqw; color: #6a5039; }
-  .card-photo { position: absolute; left: 38.2%; top: 31.6%; width: 22%; height: 22%; opacity: var(--printed, 0); box-shadow: 0 0 0 1px rgba(110, 80, 40, .35); }
-  .card-photo img { width: 100%; height: 100%; object-fit: cover; max-width: none; }
+  /* the words printed on the bride's card: a container placed exactly on the card, sized in card widths */
+  .cardprint { position: absolute; container-type: inline-size; opacity: var(--printed, 0); pointer-events: none; }
+  .cardprint > * { position: absolute; left: 50%; transform: translateX(-50%); text-align: center; white-space: nowrap; color: #45301f; mix-blend-mode: multiply; }
+  .cardprint .bn { top: 7.4%; font-family: "Noto Serif Bengali", var(--body); font-weight: 600; font-size: 3.7cqw; color: #2f5a42; line-height: 1.3; }
+  .cardprint .title { top: 16.6%; font-family: var(--script); font-size: 5.3cqw; line-height: 1.2; }
+  .cardprint .photo { top: 34.7%; width: 54.6%; height: var(--photo-h, 48.5%); mix-blend-mode: normal; box-shadow: 0 0 0 1px rgba(110, 80, 40, .35); }
+  .cardprint .photo img { width: 100%; height: 100%; object-fit: cover; max-width: none; }
+  .cardprint .names { top: 85.4%; font-family: var(--display); font-weight: 600; font-size: 2.6cqw; letter-spacing: .14em; }
+  .cardprint .date { top: 91.9%; font-family: var(--body); font-style: italic; font-size: 2.35cqw; color: #6a5039; }
 
   .hero-names { position: absolute; z-index: 3; left: 0; right: 0; top: clamp(56px, 9vh, 110px); padding-inline: 16px; text-align: center; display: grid; justify-items: center; gap: min(14px, 1.8vh); pointer-events: none; }
   .hero-names::before { content: ""; position: absolute; z-index: -1; left: 50%; top: -60px; width: min(980px, 130%); height: calc(100% + 120px); transform: translateX(-50%); background: radial-gradient(closest-side, rgba(6, 8, 20, .68), rgba(6, 8, 20, .34) 62%, transparent); }
@@ -78,7 +78,7 @@
   .cue::after { content: ""; width: 1px; height: 34px; background: linear-gradient(var(--gold-soft), transparent); animation: cue 1.8s ease-in-out infinite; transform-origin: top; }
   @keyframes cue { 0%, 100% { transform: scaleY(.4); } 50% { transform: scaleY(1); } }
 
-  .loading { position: absolute; z-index: 4; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); font: 11px var(--display); letter-spacing: .2em; text-transform: uppercase; color: rgba(244, 226, 180, .7); transition: opacity .6s; }
+  .loading { position: absolute; z-index: 4; left: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); font: 11px var(--display); letter-spacing: .2em; text-transform: uppercase; color: rgba(244, 226, 180, .7); transition: opacity .6s; }
   .loading.done { opacity: 0; }
 
   /* boat ride with the dates (last part of the hero) */
@@ -149,6 +149,25 @@
   .countdown-done { font-family: var(--script); font-size: 34px; color: var(--rose); }
   .hashtag { font-family: var(--script); font-size: 30px; color: var(--rose); }
 
+  /* ================= Music ================= */
+  .music { position: fixed; z-index: 60; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: grid; justify-items: end; gap: 10px; }
+  .music-btn { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; border: 1px solid rgba(227, 189, 114, .7); background: radial-gradient(circle at 35% 30%, #2a3a30, #10160f 75%); color: var(--gold-soft); box-shadow: 0 6px 20px rgba(0, 0, 0, .5); transition: transform .2s; }
+  .music-btn:hover { transform: scale(1.06); }
+  .music-btn svg { width: 22px; height: 22px; }
+  .music-btn .i-pause, .music.playing .music-btn .i-play { display: none; }
+  .music.playing .music-btn .i-pause { display: block; }
+  .music:not(.playing):not(.started) .music-btn { animation: invite 2.4s ease-in-out infinite; }
+  @keyframes invite { 0%, 100% { box-shadow: 0 6px 20px rgba(0, 0, 0, .5), 0 0 0 0 rgba(227, 189, 114, .5); } 50% { box-shadow: 0 6px 20px rgba(0, 0, 0, .5), 0 0 0 12px rgba(227, 189, 114, 0); } }
+  .music-hint { position: absolute; right: 64px; bottom: 14px; white-space: nowrap; padding: 6px 12px; border-radius: 999px; background: rgba(10, 8, 6, .72); color: var(--gold-soft); font: 11px var(--display); letter-spacing: .18em; text-transform: uppercase; pointer-events: none; transition: opacity .4s; }
+  .music.started .music-hint { opacity: 0; }
+  /* YouTube's own player stays visible (small) while the song plays */
+  .music-player { width: 160px; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; border: 1px solid rgba(227, 189, 114, .5); box-shadow: 0 10px 30px rgba(0, 0, 0, .5); background: #000; opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity .4s, transform .4s; }
+  .music.playing .music-player { opacity: 1; transform: none; pointer-events: auto; }
+  .music-player iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .music-credit { font: italic 12px var(--body); color: rgba(244, 226, 180, .8); text-shadow: 0 1px 6px rgba(0, 0, 0, .9); opacity: 0; transition: opacity .4s; }
+  .music.playing .music-credit { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .music-btn { animation: none !important; } }
+
   footer { padding-block: 40px 48px; padding-inline: 16px; text-align: center; display: grid; gap: 8px; justify-items: center; }
   footer .script { font-size: 40px; color: var(--gold); }
   footer p { font-size: 15px; opacity: .8; }
@@ -173,11 +192,13 @@
     <div class="box" id="boxWin"><canvas id="cvWin" aria-hidden="true"></canvas></div>
     <div class="box" id="boxEnv">
       <canvas id="cvEnv" aria-hidden="true"></canvas>
-      <p class="print bn" lang="bn">বিয়ের দাওয়াত</p>
-      <p class="print title">Join us for our wedding celebration</p>
-      <div class="card-photo" id="cardPhoto"><img src="img/card-photo.webp" alt=""></div>
-      <p class="print names">Sazzad &amp; Tanjila</p>
-      <p class="print date">4 &amp; 5 December 2026 · Chittagong</p>
+      <div class="cardprint" id="cardPrint">
+        <p class="bn" lang="bn">বিয়ের দাওয়াত</p>
+        <p class="title">Join us for our wedding celebration</p>
+        <div class="photo"><img id="cardPhotoImg" src="img/card-photo.webp" alt=""></div>
+        <p class="names">Sazzad &amp; Tanjila</p>
+        <p class="date">4 &amp; 5 December 2026 · Chittagong</p>
+      </div>
     </div>
     <div class="box" id="boxBoat"><canvas id="cvBoat" aria-hidden="true"></canvas></div>
 
@@ -203,6 +224,16 @@
     <p class="loading" id="loading">Loading 0%</p>
   </div>
 </section>
+
+<div class="music" id="music" hidden>
+  <div class="music-player"><div id="ytPlayer"></div></div>
+  <p class="music-credit">Pyaar Mein · Murtaza Qizilbash</p>
+  <span class="music-hint">Play music</span>
+  <button class="music-btn" id="musicBtn" type="button" aria-label="Play music" aria-pressed="false">
+    <svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a.8.8 0 0 0 1.2.7l10.4-6.5a.8.8 0 0 0 0-1.4L9.2 4.8A.8.8 0 0 0 8 5.5z"/></svg>
+    <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1"/><rect x="13.5" y="5" width="4" height="14" rx="1"/></svg>
+  </button>
+</div>
 
 <!-- ================= TWO HEARTS ================= -->
 <section class="scene" id="stage" aria-label="The ceremony">
@@ -261,56 +292,68 @@
   ];
   const WEDDING_AT = new Date(2026, 11, 4, 0, 0);
 
-  /* ---------------- frame sequences (HD stills, drawn by scroll) ---------------- */
-  const pad = n => String(n).padStart(3, "0");
-  const CLIPS = {
-    win:  { n: 72, src: i => `img/f/win-${pad(i)}.webp` },
-    env:  { n: 64, src: i => `img/f/env-${pad(i)}.webp` },
-    boat: { n: 72, src: i => `img/f/boat-${pad(i)}.webp` }
+  /* ---------------- frame sets: 2K wide for screens, full-HD portrait for phones ---------------- */
+  // Each file holds two consecutive frames stacked vertically (keeps the file count down).
+  const SETS = {
+    wide: { aspect: 16 / 9, dir: "img/w", fw: 2560, fh: 1440, n: { win: 44, env: 40, boat: 44 },
+            bride: [0.88, 0.45], card: { l: .2906, t: .1586, r: .6935, b: .6125 }, photo: "img/card-photo.webp", boatFocus: .44 },
+    tall: { aspect: 9 / 16, dir: "img/t", fw: 1080, fh: 1920, n: { win: 44, env: 40, boat: 44 },
+            bride: [0.83, 0.37], card: { l: .0731, t: .2318, r: .9231, b: .5521 }, photo: "img/card-photo-tall.webp", boatFocus: .5 }
   };
-  const BRIDE_WINDOW = [0.88, 0.45];        // where the bride's window sits in the window clip
-  const PHOTO = { x: .492, y: .426, w: .22 }; // the picture printed on the card, in frame coordinates
-  const CARD_W = .403;                      // card width as a share of the frame
+  const SET = (innerHeight > innerWidth && innerWidth < 1000) ? SETS.tall : SETS.wide;
+  document.getElementById("cardPhotoImg").src = SET.photo;
 
+  const pad = n => String(n).padStart(3, "0");
+  const CLIPS = {};
+  for (const name of ["win", "env", "boat"]) {
+    const n = SET.n[name];
+    CLIPS[name] = { n, files: Math.ceil(n / 2), blobs: [], bmps: new Map(), pending: new Set(), src: k => `${SET.dir}/${name}-${pad(k)}.avif` };
+  }
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const small = Math.min(innerWidth, innerHeight) < 600;
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const range = (p, a, b) => clamp((p - a) / (b - a));
   const smooth = t => t * t * (3 - 2 * t);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-  for (const c of Object.values(CLIPS)) { c.imgs = new Array(c.n); c.ok = new Array(c.n).fill(false); }
-  let loaded = 0, wanted = 0;
+  // download every file once (compressed, small); decode only the few around the current frame
   const loadingEl = document.getElementById("loading");
-  function queue(clip, step, offset) {
-    const list = [];
-    for (let i = offset; i < clip.n; i += step) list.push(i);
-    if (offset === 0 && (clip.n - 1) % step) list.push(clip.n - 1);
-    return list.map(i => () => new Promise(res => {
-      if (clip.imgs[i]) return res();
-      const im = new Image();
-      im.decoding = "async";
-      im.onload = () => { clip.ok[i] = true; loaded++; render(true); res(); };
-      im.onerror = () => res();
-      im.src = clip.src(i);
-      clip.imgs[i] = im;
-    }));
-  }
-  // first pass: every other frame of each clip, in story order; second pass fills the gaps (desktop)
-  const jobs = [...queue(CLIPS.win, 2, 0), ...queue(CLIPS.env, 2, 0), ...queue(CLIPS.boat, 2, 0)];
-  if (!small) jobs.push(...queue(CLIPS.win, 2, 1), ...queue(CLIPS.env, 2, 1), ...queue(CLIPS.boat, 2, 1));
-  wanted = jobs.length;
+  let loaded = 0; const total = Object.values(CLIPS).reduce((a, c) => a + c.files, 0);
+  const order = [];
+  for (const c of Object.values(CLIPS)) for (let k = 0; k < c.files; k += 2) order.push([c, k]);   // a quick skeleton first
+  for (const c of Object.values(CLIPS)) for (let k = 1; k < c.files; k += 2) order.push([c, k]);   // then the gaps
   (async () => {
-    const workers = Array.from({ length: 6 }, async () => { while (jobs.length) await jobs.shift()(); });
-    await Promise.all(workers);
+    const work = async () => {
+      while (order.length) {
+        const [c, k] = order.shift();
+        try { const r = await fetch(c.src(k)); if (r.ok) { c.blobs[k] = await r.blob(); loaded++; ensure(c, k); } } catch (e) {}
+      }
+    };
+    await Promise.all(Array.from({ length: 6 }, work));
     loadingEl.classList.add("done");
   })();
-  setInterval(() => { if (!loadingEl.classList.contains("done")) loadingEl.textContent = `Loading ${Math.round(loaded / wanted * 100)}%`; }, 300);
+  setInterval(() => { if (!loadingEl.classList.contains("done")) loadingEl.textContent = `Loading ${Math.round(loaded / total * 100)}%`; }, 300);
 
-  function nearest(clip, i) {
-    for (let d = 0; d < clip.n; d++) {
-      if (i - d >= 0 && clip.ok[i - d]) return clip.imgs[i - d];
-      if (i + d < clip.n && clip.ok[i + d]) return clip.imgs[i + d];
+  const MAX_BMPS = 10;
+  function ensure(c, k) {
+    if (k < 0 || k >= c.files || c.bmps.has(k) || c.pending.has(k) || !c.blobs[k]) return;
+    c.pending.add(k);
+    createImageBitmap(c.blobs[k]).then(b => {
+      c.pending.delete(k); c.bmps.set(k, b);
+      while (c.bmps.size > MAX_BMPS) {           // drop the decoded file farthest from where we are
+        let far = -1, fd = -1;
+        for (const key of c.bmps.keys()) { const d = Math.abs(key - (c.want || 0)); if (d > fd) { fd = d; far = key; } }
+        c.bmps.get(far).close(); c.bmps.delete(far);
+      }
+      dirty = true; kick();
+    }).catch(() => c.pending.delete(k));
+  }
+  // the decoded file that holds frame i, or the nearest decoded one
+  function frameSource(c, i) {
+    const k = i >> 1;
+    if (c.bmps.has(k)) return [c.bmps.get(k), i & 1];
+    for (let d = 1; d < c.files; d++) {
+      if (c.bmps.has(k - d)) return [c.bmps.get(k - d), 1];
+      if (c.bmps.has(k + d)) return [c.bmps.get(k + d), 0];
     }
     return null;
   }
@@ -322,42 +365,47 @@
     env: { el: document.getElementById("boxEnv"), cv: document.getElementById("cvEnv"), last: "" },
     boat: { el: document.getElementById("boxBoat"), cv: document.getElementById("cvBoat"), last: "" }
   };
-  for (const b of Object.values(boxes)) { b.ctx = b.cv.getContext("2d"); }
+  for (const b of Object.values(boxes)) b.ctx = b.cv.getContext("2d");
+  const cardW = SET.card.r - SET.card.l;
+  const cardPrint = document.getElementById("cardPrint");
 
-  // size a 16:9 frame box: cover the screen, keep `fx` in view; `fitCard` keeps the whole card on narrow screens
+  // size a frame box: cover the screen, keep `fx` in view; `fitCard` keeps the whole card on screen
   function layout(b, fx, fitCard) {
     const W = stage.clientWidth, H = stage.clientHeight;
-    let w = Math.max(W, H * 16 / 9);
-    if (fitCard) w = Math.max(W, Math.min(w, (W * .94) / CARD_W));
-    const h = w * 9 / 16;
+    let w = Math.max(W, H * SET.aspect);
+    if (fitCard) w = Math.max(W, Math.min(w, (W * .96) / cardW));
+    const h = w / SET.aspect;
     const left = clamp(W / 2 - fx * w, W - w, 0);
     const top = (H - h) / 2;
     if (b.w !== w || b.h !== h) {
       b.el.style.width = w + "px"; b.el.style.height = h + "px";
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const cw = Math.round(Math.min(w * dpr, 2400)), ch = Math.round(cw * 9 / 16);
+      const dpr = Math.min(window.devicePixelRatio || 1, 3);
+      const cw = Math.round(Math.min(w * dpr, SET.fw)), ch = Math.round(cw / SET.aspect);
       b.cv.width = cw; b.cv.height = ch; b.last = "";
-      b.ctx.imageSmoothingQuality = "high";
+      b.ctx.imageSmoothingEnabled = true; b.ctx.imageSmoothingQuality = "high";
       b.w = w; b.h = h;
     }
     b.el.style.left = left + "px"; b.el.style.top = top + "px";
-    return { W, H, w, h, left, top };
+    return { W, H, w, h };
   }
-  function draw(b, clip, t) {
-    const f = clamp(t) * (clip.n - 1), i = Math.floor(f), frac = f - i;
-    const key = `${i}:${frac.toFixed(2)}:${clip.ok[i]}:${clip.ok[Math.min(i + 1, clip.n - 1)]}`;
-    if (key === b.last) return;
-    const a = clip.ok[i] ? clip.imgs[i] : nearest(clip, i);
-    if (!a) return;
+  let dirty = false;
+  function draw(b, c, t) {
+    const f = clamp(t) * (c.n - 1), i = Math.floor(f), frac = f - i;
+    c.want = i >> 1;
+    for (let k = c.want - 1; k <= c.want + 2; k++) ensure(c, k);
+    const A = frameSource(c, i);
+    if (!A) return;
+    const B = i + 1 < c.n ? frameSource(c, i + 1) : null;
+    const key = `${i}:${frac.toFixed(2)}:${c.bmps.has(i >> 1)}:${c.bmps.has((i + 1) >> 1)}`;
+    if (key === b.last && !dirty) return;
     b.last = key;
     const { width: cw, height: ch } = b.cv;
+    const put = ([bmp, row], a) => { b.ctx.globalAlpha = a; b.ctx.drawImage(bmp, 0, row * SET.fh, SET.fw, SET.fh, 0, 0, cw, ch); };
+    put(A, 1);
+    if (B && frac > .02 && (B[0] !== A[0] || B[1] !== A[1])) put(B, frac);
     b.ctx.globalAlpha = 1;
-    b.ctx.drawImage(a, 0, 0, cw, ch);
-    const nxt = i + 1 < clip.n && clip.ok[i + 1] ? clip.imgs[i + 1] : null;
-    if (nxt && frac > .02 && clip.ok[i]) { b.ctx.globalAlpha = frac; b.ctx.drawImage(nxt, 0, 0, cw, ch); b.ctx.globalAlpha = 1; }
   }
 
-  /* ---------------- the story, by scroll ---------------- */
   const hero = document.getElementById("hero");
   const names = document.getElementById("heroNames");
   const cue = document.getElementById("cue");
@@ -382,17 +430,16 @@
     const r = hero.getBoundingClientRect();
     return clamp(-r.top / (r.height - innerHeight));
   }
-  function render(force) {
-    if (force === true && running) return;
+  function render() {
     const p = pNow;
 
     // A  0 – .24  dusk to night, shutters open; names arrive with the couple
     const tWin = range(p, 0, .24);
     // B  .26 – .38  the camera pushes into the bride's window
     const push = smooth(range(p, .27, .38));
-    const fx = .5 + (BRIDE_WINDOW[0] - .5) * smooth(range(p, .24, .32));
-    const L = layout(boxes.win, fx, false);
-    boxes.win.el.style.transformOrigin = `${BRIDE_WINDOW[0] * 100}% ${BRIDE_WINDOW[1] * 100}%`;
+    const fx = .5 + (SET.bride[0] - .5) * smooth(range(p, .24, .32));
+    layout(boxes.win, fx, false);
+    boxes.win.el.style.transformOrigin = `${SET.bride[0] * 100}% ${SET.bride[1] * 100}%`;
     boxes.win.el.style.transform = `scale(${1 + push * 5})`;
     boxes.win.el.style.opacity = 1 - range(p, .40, .42);
     draw(boxes.win, CLIPS.win, tWin);
@@ -409,9 +456,16 @@
     const printed = smooth(range(p, .58, .65));
     // E  .67 – .78  the camera moves into the picture on the card
     const dive = smooth(range(p, .67, .78));
-    const E = layout(boxes.env, .5, true);
-    const zEnd = Math.max(E.W / (PHOTO.w * E.w), E.H / (PHOTO.w * E.h)) * 1.03;
-    boxes.env.el.style.transformOrigin = `${PHOTO.x * 100}% ${PHOTO.y * 100}%`;
+    const E = layout(boxes.env, (SET.card.l + SET.card.r) / 2, true);
+    // place the printed words exactly on the card, and size the photo to stay 16:9
+    const cwPx = cardW * E.w, chPx = (SET.card.b - SET.card.t) * E.h;
+    cardPrint.style.left = SET.card.l * 100 + "%"; cardPrint.style.top = SET.card.t * 100 + "%";
+    cardPrint.style.width = cardW * 100 + "%"; cardPrint.style.height = (SET.card.b - SET.card.t) * 100 + "%";
+    const photoW = .546 * cwPx, photoH = photoW * 9 / 16;
+    cardPrint.style.setProperty("--photo-h", (photoH / chPx * 100).toFixed(2) + "%");
+    const photoCx = (SET.card.l + cardW / 2), photoCy = SET.card.t + (.347 * chPx + photoH / 2) / E.h;
+    const zEnd = Math.max(E.W / photoW, E.H / photoH) * 1.03;
+    boxes.env.el.style.transformOrigin = `${photoCx * 100}% ${photoCy * 100}%`;
     boxes.env.el.style.transform = `scale(${1 + dive * (zEnd - 1)})`;
     boxes.env.el.style.opacity = envIn;
     boxes.env.el.style.setProperty("--printed", printed.toFixed(3));
@@ -419,7 +473,7 @@
 
     // F  .76 – 1  the boat ride, with the two dates
     const boatIn = range(p, .755, .78);
-    layout(boxes.boat, .44, false);
+    layout(boxes.boat, SET.boatFocus, false);
     boxes.boat.el.style.opacity = boatIn;
     const tBoat = range(p, .78, 1);
     if (boatIn > 0) draw(boxes.boat, CLIPS.boat, tBoat);
@@ -431,9 +485,10 @@
   function tick() {
     pNow += (pTarget - pNow) * (reduced ? 1 : .14);
     if (Math.abs(pTarget - pNow) < .0004) pNow = pTarget;
-    render();
+    render(); dirty = false;
     if (pNow !== pTarget) requestAnimationFrame(tick); else running = false;
   }
+  function kick() { if (!running) { running = true; requestAnimationFrame(tick); } }
   function onScroll() {
     pTarget = heroProgress();
     if (!running) { running = true; requestAnimationFrame(tick); }
@@ -480,6 +535,48 @@
       `<a class="cal" href="${calLink(ev)}" target="_blank" rel="noopener">Add to calendar</a></div>`;
     list.appendChild(li);
   });
+
+  /* ---------------- music ----------------
+     file: an audio file you have the rights to (e.g. "music/song.mp3") plays everywhere.
+     youtube: otherwise the song plays through YouTube's own embedded player. */
+  const MUSIC = { file: "", youtube: "IyLSbYII_qk" };
+  const musicEl = document.getElementById("music"), musicBtn = document.getElementById("musicBtn");
+  let musicPlay = null, musicPause = null, musicReady = false;
+  const setPlaying = on => {
+    musicEl.classList.toggle("playing", on);
+    musicBtn.setAttribute("aria-pressed", String(on));
+    musicBtn.setAttribute("aria-label", on ? "Pause music" : "Play music");
+  };
+  musicBtn.addEventListener("click", () => {
+    musicEl.classList.add("started");
+    if (!musicReady) return;
+    if (musicEl.classList.contains("playing")) { musicPause(); setPlaying(false); } else { musicPlay(); setPlaying(true); }
+  });
+  if (MUSIC.file) {
+    const audio = new Audio(MUSIC.file); audio.loop = true; audio.preload = "auto";
+    musicPlay = () => audio.play().catch(() => setPlaying(false)); musicPause = () => audio.pause();
+    musicReady = true; musicEl.hidden = false;
+    musicEl.querySelector(".music-player").remove();
+  } else if (MUSIC.youtube) {
+    let player;
+    window.onYouTubeIframeAPIReady = () => {
+      player = new YT.Player("ytPlayer", {
+        videoId: MUSIC.youtube,
+        playerVars: { controls: 1, playsinline: 1, rel: 0, modestbranding: 1 },
+        events: {
+          onReady: () => { musicPlay = () => player.playVideo(); musicPause = () => player.pauseVideo(); musicReady = true; musicEl.hidden = false; },
+          onStateChange: e => {
+            if (e.data === YT.PlayerState.ENDED) { player.seekTo(0); player.playVideo(); }   // loop the song
+            if (e.data === YT.PlayerState.PLAYING) setPlaying(true);
+            if (e.data === YT.PlayerState.PAUSED) setPlaying(false);
+          }
+        }
+      });
+    };
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);   // where YouTube can't load (blocked or offline) the button simply stays hidden
+  }
 
   /* ---------------- countdown ---------------- */
   const cd = Object.fromEntries([...document.querySelectorAll("[data-cd]")].map(el => [el.dataset.cd, el]));
