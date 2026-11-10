@@ -50,12 +50,12 @@
   /* ================= HERO: one scroll-driven sequence ================= */
   #hero { position: relative; height: 540vh; }
   .hero-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: radial-gradient(120% 90% at 50% 45%, #2a1810, #0d0805 70%); }
-  .box { position: absolute; left: 0; top: 0; will-change: transform; container-type: inline-size; transform-origin: 50% 50%; }
+  .box { position: absolute; left: 0; top: 0; container-type: inline-size; }
   .box canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   #boxEnv, #boxBoat { opacity: 0; }
 
   /* the words printed on the bride's card: a container placed exactly on the card, sized in card widths */
-  .cardprint { position: absolute; container-type: inline-size; opacity: var(--printed, 0); pointer-events: none; }
+  .cardprint { position: absolute; container-type: inline-size; opacity: var(--printed, 0); pointer-events: none; transform-origin: 50% 50%; }
   .cardprint > * { position: absolute; left: 50%; transform: translateX(-50%); text-align: center; white-space: nowrap; color: #45301f; mix-blend-mode: multiply; }
   .cardprint .bn { top: 7.4%; font-family: "Noto Serif Bengali", var(--body); font-weight: 600; font-size: 3.7cqw; color: #2f5a42; line-height: 1.3; }
   .cardprint .title { top: 16.6%; font-family: var(--script); font-size: 5.3cqw; line-height: 1.2; }
@@ -159,13 +159,7 @@
   .music:not(.playing):not(.started) .music-btn { animation: invite 2.4s ease-in-out infinite; }
   @keyframes invite { 0%, 100% { box-shadow: 0 6px 20px rgba(0, 0, 0, .5), 0 0 0 0 rgba(227, 189, 114, .5); } 50% { box-shadow: 0 6px 20px rgba(0, 0, 0, .5), 0 0 0 12px rgba(227, 189, 114, 0); } }
   .music-hint { position: absolute; right: 64px; bottom: 14px; white-space: nowrap; padding: 6px 12px; border-radius: 999px; background: rgba(10, 8, 6, .72); color: var(--gold-soft); font: 11px var(--display); letter-spacing: .18em; text-transform: uppercase; pointer-events: none; transition: opacity .4s; }
-  .music.started .music-hint { opacity: 0; }
-  /* YouTube's own player stays visible (small) while the song plays */
-  .music-player { width: 160px; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; border: 1px solid rgba(227, 189, 114, .5); box-shadow: 0 10px 30px rgba(0, 0, 0, .5); background: #000; opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity .4s, transform .4s; }
-  .music.playing .music-player { opacity: 1; transform: none; pointer-events: auto; }
-  .music-player iframe { width: 100%; height: 100%; border: 0; display: block; }
-  .music-credit { font: italic 12px var(--body); color: rgba(244, 226, 180, .8); text-shadow: 0 1px 6px rgba(0, 0, 0, .9); opacity: 0; transition: opacity .4s; }
-  .music.playing .music-credit { opacity: 1; }
+  .music.started .music-hint, .music.playing .music-hint { opacity: 0; }
   @media (prefers-reduced-motion: reduce) { .music-btn { animation: none !important; } }
 
   footer { padding-block: 40px 48px; padding-inline: 16px; text-align: center; display: grid; gap: 8px; justify-items: center; }
@@ -226,9 +220,7 @@
 </section>
 
 <div class="music" id="music" hidden>
-  <div class="music-player"><div id="ytPlayer"></div></div>
-  <p class="music-credit">Pyaar Mein · Murtaza Qizilbash</p>
-  <span class="music-hint">Play music</span>
+  <span class="music-hint">Tap anywhere for music</span>
   <button class="music-btn" id="musicBtn" type="button" aria-label="Play music" aria-pressed="false">
     <svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a.8.8 0 0 0 1.2.7l10.4-6.5a.8.8 0 0 0 0-1.4L9.2 4.8A.8.8 0 0 0 8 5.5z"/></svg>
     <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1"/><rect x="13.5" y="5" width="4" height="14" rx="1"/></svg>
@@ -296,18 +288,22 @@
   // Each file holds two consecutive frames stacked vertically (keeps the file count down).
   const SETS = {
     wide: { aspect: 16 / 9, dir: "img/w", fw: 2560, fh: 1440, n: { win: 44, env: 40, boat: 44 },
-            bride: [0.88, 0.45], card: { l: .2906, t: .1586, r: .6935, b: .6125 }, photo: "img/card-photo.webp", boatFocus: .44 },
+            bride: [0.88, 0.45], card: { l: .2906, t: .1586, r: .6935, b: .6125 }, photo: "img/card-photo.webp", boatFocus: .44,
+            hi: { win: "img/hi/wide-win.webp", env: "img/hi/wide-env.webp" }, zoomWin: 3, budgetMB: 640 },
     tall: { aspect: 9 / 16, dir: "img/t", fw: 1080, fh: 1920, n: { win: 44, env: 40, boat: 44 },
-            bride: [0.83, 0.37], card: { l: .0731, t: .2318, r: .9231, b: .5521 }, photo: "img/card-photo-tall.webp", boatFocus: .5 }
+            bride: [0.83, 0.37], card: { l: .0731, t: .2318, r: .9231, b: .5521 }, photo: "img/card-photo-tall.webp", boatFocus: .5,
+            hi: { win: "img/hi/tall-win.webp", env: "img/hi/tall-env.webp" }, zoomWin: 2.4, budgetMB: 260 }
   };
   const SET = (innerHeight > innerWidth && innerWidth < 1000) ? SETS.tall : SETS.wide;
   document.getElementById("cardPhotoImg").src = SET.photo;
 
   const pad = n => String(n).padStart(3, "0");
   const CLIPS = {};
+  const STORY = [];                          // every frame file in story order, for "what's near me" decisions
   for (const name of ["win", "env", "boat"]) {
     const n = SET.n[name];
-    CLIPS[name] = { n, files: Math.ceil(n / 2), blobs: [], bmps: new Map(), pending: new Set(), src: k => `${SET.dir}/${name}-${pad(k)}.avif` };
+    const c = CLIPS[name] = { name, n, files: Math.ceil(n / 2), base: STORY.length, blobs: [], src: k => `${SET.dir}/${name}-${pad(k)}.avif` };
+    for (let k = 0; k < c.files; k++) STORY.push([c, k]);
   }
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -315,50 +311,75 @@
   const smooth = t => t * t * (3 - 2 * t);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-  // download every file once (compressed, small); decode only the few around the current frame
+  // decode at the size the screen actually shows (sharp, and lighter to draw and to keep in memory)
+  const DPR = Math.min(window.devicePixelRatio || 1, 3);
+  const decW = Math.min(SET.fw, Math.round(Math.max(innerWidth, innerHeight * SET.aspect) * DPR));
+  const decH = Math.round(decW / SET.aspect);
+  const resize = decW < SET.fw * .92 ? { resizeWidth: decW, resizeHeight: decH * 2, resizeQuality: "high" } : undefined;
+  const MAX_DECODED = Math.max(8, Math.floor(SET.budgetMB * 1e6 / (decW * decH * 2 * 4)));
+
+  // 1) download: the opening scene first, then the rest of the story
   const loadingEl = document.getElementById("loading");
-  let loaded = 0; const total = Object.values(CLIPS).reduce((a, c) => a + c.files, 0);
-  const order = [];
-  for (const c of Object.values(CLIPS)) for (let k = 0; k < c.files; k += 2) order.push([c, k]);   // a quick skeleton first
-  for (const c of Object.values(CLIPS)) for (let k = 1; k < c.files; k += 2) order.push([c, k]);   // then the gaps
+  let loaded = 0;
+  const queue = STORY.slice();
   (async () => {
     const work = async () => {
-      while (order.length) {
-        const [c, k] = order.shift();
-        try { const r = await fetch(c.src(k)); if (r.ok) { c.blobs[k] = await r.blob(); loaded++; ensure(c, k); } } catch (e) {}
+      while (queue.length) {
+        const [c, k] = queue.shift();
+        try { const r = await fetch(c.src(k)); if (r.ok) { c.blobs[k] = await r.blob(); loaded++; pump(); } } catch (e) {}
       }
     };
     await Promise.all(Array.from({ length: 6 }, work));
     loadingEl.classList.add("done");
   })();
-  setInterval(() => { if (!loadingEl.classList.contains("done")) loadingEl.textContent = `Loading ${Math.round(loaded / total * 100)}%`; }, 300);
+  setInterval(() => { if (!loadingEl.classList.contains("done")) loadingEl.textContent = `Loading ${Math.round(loaded / STORY.length * 100)}%`; }, 300);
 
-  const MAX_BMPS = 10;
-  function ensure(c, k) {
-    if (k < 0 || k >= c.files || c.bmps.has(k) || c.pending.has(k) || !c.blobs[k]) return;
-    c.pending.add(k);
-    createImageBitmap(c.blobs[k]).then(b => {
-      c.pending.delete(k); c.bmps.set(k, b);
-      while (c.bmps.size > MAX_BMPS) {           // drop the decoded file farthest from where we are
-        let far = -1, fd = -1;
-        for (const key of c.bmps.keys()) { const d = Math.abs(key - (c.want || 0)); if (d > fd) { fd = d; far = key; } }
-        c.bmps.get(far).close(); c.bmps.delete(far);
+  // 2) decode in the background, outward from where the reader is (a little more eagerly ahead than behind)
+  const decoded = new Map();                 // story index -> ImageBitmap (two frames stacked)
+  let focus = 0, decoding = 0;
+  const dist = g => (g >= focus ? g - focus : (focus - g) * 1.6);
+  function pump() {
+    while (decoding < 2) {
+      let best = -1, bd = Infinity;
+      for (let g = 0; g < STORY.length; g++) {
+        if (decoded.has(g) || STORY[g].busy || !STORY[g][0].blobs[STORY[g][1]]) continue;
+        const d = dist(g); if (d < bd) { bd = d; best = g; }
       }
-      dirty = true; kick();
-    }).catch(() => c.pending.delete(k));
+      if (best < 0) return;
+      if (decoded.size >= MAX_DECODED) {    // full: only swap in something nearer than the farthest we hold
+        let far = -1, fd = -1;
+        for (const g of decoded.keys()) { const d = dist(g); if (d > fd) { fd = d; far = g; } }
+        if (fd <= bd) return;
+        decoded.get(far).close(); decoded.delete(far);
+      }
+      const item = STORY[best]; item.busy = true; decoding++;
+      const blob = item[0].blobs[item[1]];
+      (resize ? createImageBitmap(blob, resize) : createImageBitmap(blob)).then(bmp => {
+        decoded.set(best, bmp); dirty = true; kick();
+      }).catch(() => {}).finally(() => { item.busy = false; decoding--; pump(); });
+    }
   }
-  // the decoded file that holds frame i, or the nearest decoded one
+  // the decoded file holding frame i of a clip, or the nearest one we have
   function frameSource(c, i) {
-    const k = i >> 1;
-    if (c.bmps.has(k)) return [c.bmps.get(k), i & 1];
+    const k = i >> 1, g = c.base + k;
+    if (decoded.has(g)) return [decoded.get(g), i & 1];
     for (let d = 1; d < c.files; d++) {
-      if (c.bmps.has(k - d)) return [c.bmps.get(k - d), 1];
-      if (c.bmps.has(k + d)) return [c.bmps.get(k + d), 0];
+      if (k - d >= 0 && decoded.has(g - d)) return [decoded.get(g - d), 1];
+      if (k + d < c.files && decoded.has(g + d)) return [decoded.get(g + d), 0];
     }
     return null;
   }
 
-  /* ---------------- canvases ---------------- */
+  // full-resolution stills for the two camera moves, so zooming in stays sharp
+  const HI = {};
+  function loadHi() {
+    for (const [k, url] of Object.entries(SET.hi)) {
+      const im = new Image(); im.decoding = "async"; im.src = url;
+      im.decode().then(() => { HI[k] = im; dirty = true; kick(); }).catch(() => {});
+    }
+  }
+  setTimeout(loadHi, 1200);
+
   const stage = document.getElementById("heroStage");
   const boxes = {
     win: { el: document.getElementById("boxWin"), cv: document.getElementById("cvWin"), last: "" },
@@ -389,20 +410,30 @@
     return { W, H, w, h };
   }
   let dirty = false;
-  function draw(b, c, t) {
+  // draw frame t of a clip; `z` zooms about point (px, py) by s, and can blend in a full-resolution still
+  function draw(b, c, t, z) {
     const f = clamp(t) * (c.n - 1), i = Math.floor(f), frac = f - i;
-    c.want = i >> 1;
-    for (let k = c.want - 1; k <= c.want + 2; k++) ensure(c, k);
     const A = frameSource(c, i);
     if (!A) return;
     const B = i + 1 < c.n ? frameSource(c, i + 1) : null;
-    const key = `${i}:${frac.toFixed(2)}:${c.bmps.has(i >> 1)}:${c.bmps.has((i + 1) >> 1)}`;
+    const zs = z ? z.s : 1, hiA = z && z.hi ? z.hiA : 0;
+    const key = `${i}:${frac.toFixed(3)}:${A[0].width}:${B ? B[1] : -1}:${zs.toFixed(4)}:${hiA.toFixed(3)}`;
     if (key === b.last && !dirty) return;
     b.last = key;
     const { width: cw, height: ch } = b.cv;
-    const put = ([bmp, row], a) => { b.ctx.globalAlpha = a; b.ctx.drawImage(bmp, 0, row * SET.fh, SET.fw, SET.fh, 0, 0, cw, ch); };
+    const px = z ? z.px : .5, py = z ? z.py : .5, k = 1 - 1 / zs;
+    const put = ([bmp, row], a) => {
+      const bw = bmp.width, bh = bmp.height / 2;
+      b.ctx.globalAlpha = a;
+      b.ctx.drawImage(bmp, px * bw * k, row * bh + py * bh * k, bw / zs, bh / zs, 0, 0, cw, ch);
+    };
     put(A, 1);
     if (B && frac > .02 && (B[0] !== A[0] || B[1] !== A[1])) put(B, frac);
+    if (hiA > 0) {
+      const im = z.hi, W0 = im.naturalWidth, H0 = im.naturalHeight;
+      b.ctx.globalAlpha = hiA;
+      b.ctx.drawImage(im, px * W0 * k, py * H0 * k, W0 / zs, H0 / zs, 0, 0, cw, ch);
+    }
     b.ctx.globalAlpha = 1;
   }
 
@@ -439,10 +470,13 @@
     const push = smooth(range(p, .27, .38));
     const fx = .5 + (SET.bride[0] - .5) * smooth(range(p, .24, .32));
     layout(boxes.win, fx, false);
-    boxes.win.el.style.transformOrigin = `${SET.bride[0] * 100}% ${SET.bride[1] * 100}%`;
-    boxes.win.el.style.transform = `scale(${1 + push * 5})`;
     boxes.win.el.style.opacity = 1 - range(p, .40, .42);
-    draw(boxes.win, CLIPS.win, tWin);
+    const sWin = 1 + push * (SET.zoomWin - 1);
+    if (p < .42) draw(boxes.win, CLIPS.win, tWin, { s: sWin, px: SET.bride[0], py: SET.bride[1], hi: HI.win, hiA: smooth(range(p, .245, .28)) });
+    focus = p < .36 ? CLIPS.win.base + ((tWin * (CLIPS.win.n - 1)) >> 1)
+          : p < .76 ? CLIPS.env.base + ((range(p, .38, .60) * (CLIPS.env.n - 1)) >> 1)
+          : CLIPS.boat.base + ((range(p, .78, 1) * (CLIPS.boat.n - 1)) >> 1);
+    pump();
 
     const nameIn = range(p, .15, .21), nameOut = range(p, .26, .29);
     names.style.setProperty("--o", (nameIn * (1 - nameOut)).toFixed(3));
@@ -465,11 +499,13 @@
     cardPrint.style.setProperty("--photo-h", (photoH / chPx * 100).toFixed(2) + "%");
     const photoCx = (SET.card.l + cardW / 2), photoCy = SET.card.t + (.347 * chPx + photoH / 2) / E.h;
     const zEnd = Math.max(E.W / photoW, E.H / photoH) * 1.03;
-    boxes.env.el.style.transformOrigin = `${photoCx * 100}% ${photoCy * 100}%`;
-    boxes.env.el.style.transform = `scale(${1 + dive * (zEnd - 1)})`;
+    const sEnv = 1 + dive * (zEnd - 1);
+    // the printed card scales about the same point as the canvas zoom, so the words stay on the card
+    cardPrint.style.transformOrigin = `${(photoCx - SET.card.l) / cardW * 100}% ${(photoCy - SET.card.t) / (SET.card.b - SET.card.t) * 100}%`;
+    cardPrint.style.transform = sEnv > 1.0001 ? `scale(${sEnv})` : "none";
     boxes.env.el.style.opacity = envIn;
     boxes.env.el.style.setProperty("--printed", printed.toFixed(3));
-    if (envIn > 0) draw(boxes.env, CLIPS.env, tEnv);
+    if (envIn > 0 && p < .8) draw(boxes.env, CLIPS.env, tEnv, { s: sEnv, px: photoCx, py: photoCy, hi: HI.env, hiA: smooth(range(p, .60, .64)) });
 
     // F  .76 – 1  the boat ride, with the two dates
     const boatIn = range(p, .755, .78);
@@ -537,46 +573,38 @@
   });
 
   /* ---------------- music ----------------
-     file: an audio file you have the rights to (e.g. "music/song.mp3") plays everywhere.
-     youtube: otherwise the song plays through YouTube's own embedded player. */
-  const MUSIC = { file: "", youtube: "IyLSbYII_qk" };
+     Browsers only allow sound after the visitor interacts with the page, so the music
+     starts on the first tap, click or key press anywhere (or right away where the browser allows it).
+     Replace `file` with the couple's song file to change it. */
+  const MUSIC = { file: "music/wedding-instrumental.mp3", volume: .7 };
   const musicEl = document.getElementById("music"), musicBtn = document.getElementById("musicBtn");
-  let musicPlay = null, musicPause = null, musicReady = false;
+  const audio = new Audio(MUSIC.file);
+  audio.loop = true; audio.preload = "auto"; audio.volume = 0;
+  let userPaused = false, fadeT = 0;
   const setPlaying = on => {
     musicEl.classList.toggle("playing", on);
     musicBtn.setAttribute("aria-pressed", String(on));
     musicBtn.setAttribute("aria-label", on ? "Pause music" : "Play music");
   };
-  musicBtn.addEventListener("click", () => {
-    musicEl.classList.add("started");
-    if (!musicReady) return;
-    if (musicEl.classList.contains("playing")) { musicPause(); setPlaying(false); } else { musicPlay(); setPlaying(true); }
+  const fadeTo = (v, done) => {
+    clearInterval(fadeT);
+    fadeT = setInterval(() => {
+      const d = v - audio.volume;
+      if (Math.abs(d) < .03) { audio.volume = v; clearInterval(fadeT); done && done(); }
+      else audio.volume = clamp(audio.volume + Math.sign(d) * .03);
+    }, 40);
+  };
+  const play = () => audio.play().then(() => { musicEl.classList.add("started"); setPlaying(true); fadeTo(MUSIC.volume); }).catch(() => {});
+  const pause = () => { setPlaying(false); fadeTo(0, () => audio.pause()); };
+  musicBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    if (musicEl.classList.contains("playing")) { userPaused = true; pause(); } else { userPaused = false; play(); }
   });
-  if (MUSIC.file) {
-    const audio = new Audio(MUSIC.file); audio.loop = true; audio.preload = "auto";
-    musicPlay = () => audio.play().catch(() => setPlaying(false)); musicPause = () => audio.pause();
-    musicReady = true; musicEl.hidden = false;
-    musicEl.querySelector(".music-player").remove();
-  } else if (MUSIC.youtube) {
-    let player;
-    window.onYouTubeIframeAPIReady = () => {
-      player = new YT.Player("ytPlayer", {
-        videoId: MUSIC.youtube,
-        playerVars: { controls: 1, playsinline: 1, rel: 0, modestbranding: 1 },
-        events: {
-          onReady: () => { musicPlay = () => player.playVideo(); musicPause = () => player.pauseVideo(); musicReady = true; musicEl.hidden = false; },
-          onStateChange: e => {
-            if (e.data === YT.PlayerState.ENDED) { player.seekTo(0); player.playVideo(); }   // loop the song
-            if (e.data === YT.PlayerState.PLAYING) setPlaying(true);
-            if (e.data === YT.PlayerState.PAUSED) setPlaying(false);
-          }
-        }
-      });
-    };
-    const tag = document.createElement("script");
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.head.appendChild(tag);   // where YouTube can't load (blocked or offline) the button simply stays hidden
-  }
+  const firstTouch = () => { if (!userPaused && audio.paused) play(); };
+  for (const ev of ["pointerdown", "keydown", "touchend"]) addEventListener(ev, firstTouch, { passive: true });
+  audio.addEventListener("canplay", () => { musicEl.hidden = false; }, { once: true });
+  audio.addEventListener("error", () => { musicEl.hidden = true; });
+  play();                                    // works immediately where the browser permits
 
   /* ---------------- countdown ---------------- */
   const cd = Object.fromEntries([...document.querySelectorAll("[data-cd]")].map(el => [el.dataset.cd, el]));

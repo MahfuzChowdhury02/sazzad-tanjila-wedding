@@ -23,7 +23,14 @@ The page picks one set by screen shape, downloads it compressed, and decodes onl
 
 ## Music
 
-A play/pause button sits in the bottom-right corner. By default the song (*Pyaar Mein*, Murtaza Qizilbash) plays through YouTube's embedded player, which appears small above the button while it plays. To use an audio file you have the rights to instead, set `MUSIC.file` (e.g. `"music/song.mp3"`) in the script.
+A play/pause button sits in the bottom-right corner. Browsers only allow sound after a visitor interacts with a page, so the music starts on the first tap, click or key press anywhere (or immediately where the browser allows it), fades in, and loops. The button pauses and resumes it.
+
+The current track, `music/wedding-instrumental.mp3`, is an original instrumental generated with Higgsfield as a stand-in. To use the couple's chosen song, add an audio file you have the rights to and set `MUSIC.file` in the script.
+
+## Smooth, sharp scrolling
+
+- Frames are downloaded once, then decoded in the background outward from the reader's position (more eagerly ahead than behind), at the size the screen shows, within a memory budget (about 640 MB on computers, 260 MB on phones).
+- The two camera moves (into the bride's window, into the picture on the card) are drawn from full-resolution stills in `img/hi/`, so zooming in stays sharp; the printed card text scales with the same zoom.
 
 ## Editing
 
